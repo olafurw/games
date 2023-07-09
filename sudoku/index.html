@@ -17,7 +17,7 @@
             overflow: hidden;
             position: absolute;
             display: block;
-            background: black;
+            background: white;
             z-index: 9999;
         }
     </style>
@@ -26,6 +26,8 @@
 <body>
     <canvas id="glcanvas" tabindex='1'></canvas>
     <script src="bundle.js"></script>
+    <script src="sapp-jsutils.js"></script>
+    <script src="quad-storage.js"></script>
     <script>load("rust-sudoku.wasm");</script>
     <script>
         window.td = window.td || [];
