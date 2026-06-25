@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Solitaire</title>
+  <script src="https://cdn.telemetrydeck.com/websdk/telemetrydeck.min.js" data-app-id="888C94BE-8D48-4BFF-800F-2603B478BCBE"></script>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      color-scheme: dark;
+      background: #063929;
+      color: #e6eed8;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #063929;
+      overscroll-behavior: none;
+    }
+
+    #canvas {
+      width: 100vw;
+      height: 100dvh;
+      display: block;
+      background: #063929;
+      outline: none;
+      touch-action: none;
+    }
+
+    #status {
+      position: fixed;
+      left: 14px;
+      bottom: 12px;
+      color: rgba(230, 238, 216, 0.78);
+      font-size: 13px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" width="1280" height="720" tabindex="0" oncontextmenu="event.preventDefault()"></canvas>
+  <div id="status">Loading...</div>
+
+  <script>
+    const statusElement = document.getElementById("status");
+    const canvas = document.getElementById("canvas");
+
+    var Module = {
+      canvas,
+      locateFile(path, prefix) {
+        const files = {
+          "solitaire_game.wasm": "solitaire_game.43a4e802f84fbb1e.wasm",
+          "solitaire_game.data": "solitaire_game.43a4e802f84fbb1e.data"
+        };
+        return prefix + (files[path] || path);
+      },
+      setStatus(text) {
+        statusElement.textContent = text || "";
+      },
+      print(text) {
+        console.log(text);
+      },
+      printErr(text) {
+        console.error(text);
+        statusElement.textContent = text;
+      }
+    };
+
+    canvas.addEventListener("pointerdown", () => canvas.focus());
+  </script>
+  <script async src="solitaire_game.43a4e802f84fbb1e.js"></script>
+</body>
+</html>
