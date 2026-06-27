@@ -16,12 +16,18 @@
 
     html,
     body {
+      position: fixed;
+      inset: 0;
       width: 100%;
       height: 100%;
       margin: 0;
       overflow: hidden;
       background: #063929;
       overscroll-behavior: none;
+      overscroll-behavior-x: none;
+      overscroll-behavior-y: none;
+      touch-action: none;
+      -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
     }
@@ -33,6 +39,10 @@
       background: #063929;
       outline: none;
       touch-action: none;
+      overscroll-behavior: none;
+      overscroll-behavior-x: none;
+      overscroll-behavior-y: none;
+      -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
     }
@@ -59,8 +69,8 @@
       canvas,
       locateFile(path, prefix) {
         const files = {
-          "solitaire_game.wasm": "solitaire_game.9b745c6ecfc36004.wasm",
-          "solitaire_game.data": "solitaire_game.9b745c6ecfc36004.data"
+          "solitaire_game.wasm": "solitaire_game.35001a494e7d4b1e.wasm",
+          "solitaire_game.data": "solitaire_game.35001a494e7d4b1e.data"
         };
         return prefix + (files[path] || path);
       },
@@ -78,16 +88,31 @@
 
     canvas.addEventListener("pointerdown", () => canvas.focus());
 
-    const preventCanvasGesture = (event) => {
-      event.preventDefault();
+    const preventPageGesture = (event) => {
+      if (event.cancelable) {
+        event.preventDefault();
+      }
     };
 
-    canvas.addEventListener("touchstart", preventCanvasGesture, { passive: false });
-    canvas.addEventListener("touchmove", preventCanvasGesture, { passive: false });
-    canvas.addEventListener("gesturestart", preventCanvasGesture, { passive: false });
-    canvas.addEventListener("gesturechange", preventCanvasGesture, { passive: false });
-    canvas.addEventListener("gestureend", preventCanvasGesture, { passive: false });
+    const gestureOptions = { passive: false, capture: true };
+    const gestureTargets = [window, document, document.documentElement, document.body, canvas];
+    const gestureEvents = [
+      "touchstart",
+      "touchmove",
+      "touchend",
+      "touchcancel",
+      "gesturestart",
+      "gesturechange",
+      "gestureend",
+      "dragstart"
+    ];
+
+    for (const target of gestureTargets) {
+      for (const eventName of gestureEvents) {
+        target.addEventListener(eventName, preventPageGesture, gestureOptions);
+      }
+    }
   </script>
-  <script async src="solitaire_game.9b745c6ecfc36004.js"></script>
+  <script async src="solitaire_game.35001a494e7d4b1e.js"></script>
 </body>
 </html>
